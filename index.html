@@ -3,23 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المعلم محمد الذكي – بصوت بشري</title>
+<title>المعلم محمد الذكي – الحل السهل</title>
 
 <style>
 *{box-sizing:border-box}
 html,body{
-  width:100%;height:100%;margin:0;overflow:hidden;
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
   font-family:"Tajawal",Arial;
 }
 body{
   background:linear-gradient(#fde4ec,#ffffff);
-  display:flex;justify-content:center;align-items:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   color:#880e4f;
 }
 
-.container{width:100vw;height:100vh;padding:3vh 3vw}
+.container{
+  width:100vw;
+  height:100vh;
+  padding:3vh 3vw;
+}
+
 .card{
-  width:100%;height:100%;
+  width:100%;
+  height:100%;
   background:white;
   padding:20px;
   display:flex;
@@ -28,7 +39,12 @@ body{
   justify-content:center;
 }
 
-.character{display:flex;align-items:center;gap:12px}
+.character{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
 .avatar{font-size:48px}
 .name{font-size:22px;font-weight:bold}
 
@@ -40,19 +56,55 @@ body{
   max-width:900px;
   text-align:center;
   font-size:18px;
+  line-height:1.6;
+}
+
+.question{
+  font-size:34px;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+/* القلوب */
+.hearts{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.heart{
+  font-size:36px;
+  color:#e53935;
+  animation:glow 1.4s infinite alternate;
+}
+@keyframes glow{
+  from{transform:scale(1);opacity:.7}
+  to{transform:scale(1.25);opacity:1}
+}
+
+/* النجوم */
+.stars{
+  font-size:32px;
+  color:#fbc02d;
+  margin-top:10px;
+  animation:twinkle 1.2s infinite alternate;
+}
+@keyframes twinkle{
+  from{opacity:.5}
+  to{opacity:1}
 }
 
 input{
-  font-size:22px;
+  font-size:26px;
+  width:120px;
+  text-align:center;
   padding:8px;
   border-radius:12px;
   border:3px solid #f48fb1;
-  width:260px;
-  text-align:center;
 }
 
 button{
-  margin:8px;
+  margin:6px;
   padding:12px 24px;
   font-size:18px;
   border:none;
@@ -62,7 +114,16 @@ button{
   cursor:pointer;
 }
 
-audio{display:none}
+.helper{
+  background:#fff3cd;
+  color:#795548;
+  border-radius:12px;
+  padding:14px;
+  font-size:16px;
+  margin-top:10px;
+  max-width:900px;
+  text-align:center;
+}
 </style>
 </head>
 
@@ -77,54 +138,142 @@ audio{display:none}
 </div>
 
 <div class="speech" id="teacherText">
-  مرحبًا يا بطل، يمكنك أن تسألني أي سؤال في الدرس 🌟
+  مرحبًا يا بطل 🌟 نحن هنا لنتعلم بهدوء.
 </div>
 
-<input id="childQuestion" placeholder="اكتب سؤالك هنا">
+<div class="question" id="questionText">٢ + ٣ = ؟</div>
+
+<div id="heartsA" class="hearts"></div>
+<div style="font-size:28px;font-weight:bold">+</div>
+<div id="heartsB" class="hearts"></div>
+<div id="heartsResult" class="hearts"></div>
+
+<input id="answerInput" type="number" placeholder="الناتج">
 
 <div>
-  <button onclick="askTeacher()">👨‍🏫 اسأل المعلم محمد</button>
-  <button onclick="askHakim()">🧔🏻‍♂️ اسأل الحكيم إبراهيم</button>
+  <button onclick="checkAnswer()">تحقق</button>
+  <button onclick="needHelp()">🤍 أنا محتار</button>
+  <button onclick="askHakim()">🧔🏻‍♂️ الحكيم إبراهيم</button>
 </div>
 
-<audio id="voicePlayer"></audio>
+<div id="helperBox" class="helper" style="display:none"></div>
+<div id="stars" class="stars" style="display:none">🌟 🌟 🌟</div>
 
 </div>
 </div>
 
 <script>
-async function speakHuman(text, role){
-  const res = await fetch("http://localhost:3000/api/speak", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({
-      text: text,
-      role: role
-    })
-  });
+/* =========================
+   الصوت الذكي (الحل السهل)
+========================= */
+function speakHuman(text, role="teacher"){
+  if(!("speechSynthesis" in window)) return;
 
-  const data = await res.json();
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  const voices = speechSynthesis.getVoices();
 
-  document.getElementById("teacherText").innerText = data.text;
+  let voice =
+    voices.find(v => v.lang.startsWith("ar") && v.name.toLowerCase().includes("google")) ||
+    voices.find(v => v.lang.startsWith("ar")) ||
+    voices[0];
 
-  const audio = document.getElementById("voicePlayer");
-  audio.src = data.audioUrl;
-  audio.play();
+  utter.voice = voice;
+  utter.lang = "ar-SA";
+
+  if(role==="hakim"){
+    utter.rate = 0.85;
+    utter.pitch = 0.9;
+  }else{
+    utter.rate = 0.95;
+    utter.pitch = 1.1;
+  }
+
+  speechSynthesis.speak(utter);
 }
 
-async function askTeacher(){
-  const q = document.getElementById("childQuestion").value.trim();
-  if(!q) return;
+/* =========================
+   الحالة
+========================= */
+let a = 2;
+let b = 3;
+let state = { success:0, wrong:0 };
 
-  speakHuman(q,"teacher");
+/* =========================
+   أدوات
+========================= */
+function showHearts(id,count){
+  const el=document.getElementById(id);
+  el.innerHTML="";
+  for(let i=0;i<count;i++){
+    const h=document.createElement("span");
+    h.className="heart";
+    h.textContent="❤";
+    el.appendChild(h);
+  }
 }
 
-async function askHakim(){
-  const q = document.getElementById("childQuestion").value.trim();
-  if(!q) return;
+/* =========================
+   بداية السؤال
+========================= */
+function newQuestion(){
+  showHearts("heartsA",a);
+  showHearts("heartsB",b);
+  showHearts("heartsResult",0);
+  document.getElementById("stars").style.display="none";
+  document.getElementById("helperBox").style.display="none";
 
-  speakHuman(q,"hakim");
+  const text =
+    state.success>=3 ?
+    "أراك جاهزًا لخطوة جميلة، فكّر بهدوء." :
+    "عدّ القلوب معًا ولا تتعجل.";
+
+  teacherText.innerText = text;
+  speakHuman(text,"teacher");
+
+  questionText.innerText = "٢ + ٣ = ؟";
+  answerInput.value="";
 }
+
+/* =========================
+   التحقق
+========================= */
+function checkAnswer(){
+  if(Number(answerInput.value)==a+b){
+    state.success++;
+    state.wrong=0;
+    showHearts("heartsResult",a+b);
+    document.getElementById("stars").style.display="block";
+    speakHuman("أحسنت يا بطل، هذا رائع.","teacher");
+    setTimeout(newQuestion,2000);
+  }else{
+    state.wrong++;
+    speakHuman("لا بأس، حاول مرة أخرى بهدوء.","teacher");
+  }
+}
+
+/* =========================
+   محتار
+========================= */
+function needHelp(){
+  helperBox.style.display="block";
+  helperBox.innerText =
+    "خذ نفسًا عميقًا، وعدّ القلوب واحدة واحدة.";
+  speakHuman(helperBox.innerText,"teacher");
+}
+
+/* =========================
+   الحكيم إبراهيم
+========================= */
+function askHakim(){
+  const text =
+    "يا بني، التعلم يحتاج صبرًا. عدّ الأشياء بهدوء وستفهم.";
+  helperBox.style.display="block";
+  helperBox.innerText=text;
+  speakHuman(text,"hakim");
+}
+
+newQuestion();
 </script>
 
 </body>
