@@ -3,200 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مغامرة الجمع السحرية</title>
+<title>درس الجمع – التعلم عبادة</title>
 
 <style>
 *{box-sizing:border-box}
 html,body{
-  width:100%;height:100%;margin:0;overflow:hidden;
+  width:100%;
+  height:100%;
+  margin:0;
   font-family:"Tajawal",Arial;
+  background:linear-gradient(#e8f5e9,#ffffff);
+  color:#1b5e20;
 }
-body{
-  background:linear-gradient(#fde4ec,#ffffff);
-  display:flex;justify-content:center;align-items:center;
-  color:#880e4f;
+.container{
+  max-width:480px;
+  margin:auto;
+  padding:12px;
 }
-
-.container{width:100vw;height:100vh;padding:3vh 3vw}
 .card{
-  width:100%;height:100%;
   background:white;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  border-radius:18px;
+  padding:16px;
+  margin-top:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
-
-/* الشخصيات */
 .character{
   display:flex;
-  gap:12px;
   align-items:center;
+  gap:8px;
 }
-.avatar{font-size:48px}
-.name{font-size:22px;font-weight:bold}
+.avatar{font-size:42px}
+.name{font-weight:bold}
 
-/* الحوار */
 .speech{
-  background:#fce4ec;
-  border-radius:16px;
-  padding:16px 22px;
-  margin:12px;
-  max-width:900px;
-  text-align:center;
-  font-size:18px;
-  line-height:1.7;
+  background:#e0f2f1;
+  border-radius:14px;
+  padding:14px;
+  margin-top:10px;
+  line-height:1.6;
 }
 
-/* السؤال */
 .question{
-  font-size:36px;
-  font-weight:bold;
-  margin:10px 0;
+  font-size:30px;
+  margin:16px 0;
+  text-align:center;
 }
 
-/* القلوب */
 .hearts{
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:6px;
   flex-wrap:wrap;
 }
 .heart{
-  font-size:36px;
+  font-size:30px;
   color:#e53935;
-  animation:glow 1.4s infinite alternate;
 }
-@keyframes glow{
-  from{transform:scale(1);opacity:.7}
-  to{transform:scale(1.25);opacity:1}
-}
-
-/* النجوم */
 .stars{
-  font-size:32px;
+  font-size:28px;
   color:#fbc02d;
-  margin-top:10px;
-  animation:twinkle 1.2s infinite alternate;
-}
-@keyframes twinkle{
-  from{opacity:.5}
-  to{opacity:1}
+  text-align:center;
+  display:none;
 }
 
-/* الإدخال والأزرار */
 input{
-  font-size:26px;
-  width:120px;
+  font-size:24px;
+  width:100px;
+  padding:6px;
+  border-radius:10px;
+  border:2px solid #a5d6a7;
   text-align:center;
-  padding:8px;
-  border-radius:12px;
-  border:3px solid #f48fb1;
 }
 button{
-  margin:6px;
-  padding:12px 24px;
+  margin-top:12px;
+  padding:8px 16px;
   font-size:18px;
   border:none;
   border-radius:14px;
-  background:#d81b60;
+  background:#43a047;
   color:white;
   cursor:pointer;
 }
 
-/* المساعدة */
 .helper{
-  background:#fff3cd;
-  color:#795548;
+  background:#fff8e1;
   border-radius:12px;
-  padding:14px;
+  padding:12px;
   font-size:16px;
   margin-top:10px;
-  max-width:900px;
-  text-align:center;
+  display:none;
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
-<div class="card">
 
-<!-- الشخصية -->
-<div class="character" id="currentChar">
-  <div class="avatar" id="avatar">🧔🏻‍♂️</div>
-  <div class="name" id="name">الحكيم إبراهيم</div>
+<!-- المقدمة -->
+<div id="intro" class="card">
+  <div class="character">
+    <div class="avatar">🧔🏻‍♂️</div>
+    <div class="name">الحكيم إبراهيم</div>
+  </div>
+
+  <div class="speech">
+    مرحبًا يا بطل 🌱<br>
+    اليوم سنتعلّم الجمع بهدوء ومحبة.<br>
+    تذكّر دائمًا: <b>التعلم عبادة</b>، والله مع الصابرين.
+  </div>
+
+  <p>اسم الطالب:</p>
+  <input id="studentName" placeholder="اكتب اسمك">
+
+  <p>اسم ولي الأمر:</p>
+  <input id="parentName" placeholder="اسم الوالد أو الوالدة">
+
+  <button onclick="startLesson()">ابدأ الدرس</button>
 </div>
 
-<!-- النص -->
-<div class="speech" id="speech">
-مرحبًا يا بطل 🌟  
-نحن هنا لنتعلم بهدوء ومحبة.  
-كل محاولة منك عبادة جميلة.
+<!-- الدرس -->
+<div id="lesson" class="card" style="display:none">
+
+  <div class="character">
+    <div class="avatar">👨‍🏫</div>
+    <div class="name">المعلم محمد</div>
+  </div>
+
+  <div class="speech" id="teacherText"></div>
+
+  <div class="question" id="questionText"></div>
+
+  <div id="heartsA" class="hearts"></div>
+  <div style="text-align:center;font-size:26px">+</div>
+  <div id="heartsB" class="hearts"></div>
+  <div id="heartsResult" class="hearts"></div>
+
+  <input id="answerInput" type="number" placeholder="الناتج">
+
+  <div>
+    <button onclick="checkAnswer()">تحقّق</button>
+    <button onclick="needHelp()">أنا محتار 🤍</button>
+  </div>
+
+  <div id="helper" class="helper"></div>
+
+  <div id="stars" class="stars">🌟 🌟 🌟</div>
+
+  <div id="nextArea" style="display:none">
+    <button id="nextBtn" disabled onclick="nextStep()">التالي (١٠)</button>
+  </div>
 </div>
 
-<!-- السؤال -->
-<div class="question" id="question">؟</div>
-
-<!-- القلوب -->
-<div id="heartsA" class="hearts"></div>
-<div style="font-size:28px;font-weight:bold">+</div>
-<div id="heartsB" class="hearts"></div>
-<div id="heartsResult" class="hearts"></div>
-
-<!-- الإدخال -->
-<input id="answer" type="number" placeholder="الناتج">
-
-<!-- الأزرار -->
-<div>
-  <button onclick="checkAnswer()">تحقق</button>
-  <button onclick="needHelp()">🤍 أنا محتار</button>
-  <button onclick="askHakim()">🧔🏻‍♂️ اسأل الحكيم</button>
-</div>
-
-<!-- رسائل -->
-<div id="helper" class="helper" style="display:none"></div>
-<div id="stars" class="stars" style="display:none">🌟 🌟 🌟</div>
-
-</div>
 </div>
 
 <script>
-/* ===============================
-   الصوت الذكي (محلي – أسهل حل)
-=============================== */
-function speak(text, role="teacher"){
+/* ===== متغيرات ===== */
+let student="", parent="";
+let a=0, b=0;
+let time=10, timer=null;
+let level=1;
+let stepClicks=0;
+
+/* ===== أدوات ===== */
+function eastern(n){
+  return n.toString().replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+}
+
+function speak(text){
   if(!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  const voices = speechSynthesis.getVoices();
-
-  let voice =
-    voices.find(v => v.lang.startsWith("ar") && v.name.toLowerCase().includes("google")) ||
-    voices.find(v => v.lang.startsWith("ar")) ||
-    voices[0];
-
-  u.voice = voice;
-  u.lang = "ar-SA";
-
-  if(role==="hakim"){ u.rate=0.85; u.pitch=0.9; }
-  else{ u.rate=0.95; u.pitch=1.1; }
-
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="ar-SA";
+  u.rate=0.95;
   speechSynthesis.speak(u);
 }
 
-/* ===============================
-   أرقام وقيم
-=============================== */
-let a = Math.floor(Math.random()*5)+1;
-let b = Math.floor(Math.random()*5)+1;
-let success = 0;
-
-/* ===============================
-   عرض القلوب
-=============================== */
 function showHearts(id,n){
   const el=document.getElementById(id);
   el.innerHTML="";
@@ -208,71 +189,106 @@ function showHearts(id,n){
   }
 }
 
-/* ===============================
-   سؤال جديد
-=============================== */
-function newQuestion(){
-  document.getElementById("avatar").textContent="👨‍🏫";
-  document.getElementById("name").textContent="المعلم محمد";
-  document.getElementById("helper").style.display="none";
-  document.getElementById("stars").style.display="none";
+/* ===== بدء ===== */
+function startLesson(){
+  student=studentName.value||"بطلنا";
+  parent=parentName.value||"ولي أمره الكريم";
+  intro.style.display="none";
+  lesson.style.display="block";
+  newQuestion();
+}
 
-  a=Math.floor(Math.random()*5)+1;
-  b=Math.floor(Math.random()*5)+1;
+function newQuestion(){
+  stepClicks=0;
+  a=Math.floor(Math.random()*(level+2))+1;
+  b=Math.floor(Math.random()*(level+2))+1;
+
+  teacherText.innerHTML=
+  `يا ${student}، سنشرح أولًا ثم نحسب.<br>
+   الجمع يعني أن نضم الأشياء معًا، بهدوء وصبر.`;
+
+  speak(teacherText.innerText);
+
+  questionText.innerText=
+    `${eastern(a)} + ${eastern(b)} = ؟`;
 
   showHearts("heartsA",a);
   showHearts("heartsB",b);
   showHearts("heartsResult",0);
 
-  const text="يا بطل، عدّ القلوب معي بهدوء ثم أخبرني بالناتج.";
-  document.getElementById("speech").textContent=text;
-  speak(text,"teacher");
-
-  document.getElementById("question").textContent=`${a} + ${b} = ؟`;
-  document.getElementById("answer").value="";
+  answerInput.value="";
+  helper.style.display="none";
+  stars.style.display="none";
+  nextArea.style.display="none";
 }
 
-/* ===============================
-   التحقق
-=============================== */
 function checkAnswer(){
-  const user=Number(document.getElementById("answer").value);
-  if(user===a+b){
-    success++;
+  if(Number(answerInput.value)===a+b){
     showHearts("heartsResult",a+b);
-    document.getElementById("stars").style.display="block";
-    const msg="أحسنت يا بطل 🌟 تفكيرك جميل.";
-    speak(msg,"teacher");
-    setTimeout(newQuestion,2000);
+    stars.style.display="block";
+
+    const msg=
+    `أحسنت يا ${student} 🌟<br>
+     محاولتك عبادة جميلة، والله يراك ويبارك جهدك.`;
+    teacherText.innerHTML=msg;
+    speak(teacherText.innerText);
+
+    if(level<4) level++;
+    startNextTimer();
   }else{
-    speak("لا بأس، خذ وقتك وحاول بهدوء.","teacher");
+    const msg=
+    `لا بأس يا ${student}.<br>
+     الخطأ طريق التعلم، والله معك.`;
+    teacherText.innerHTML=msg;
+    speak(teacherText.innerText);
   }
 }
 
-/* ===============================
-   محتار
-=============================== */
 function needHelp(){
-  const text="لا تقلق، عدّ القلوب واحدة واحدة، وستفهم.";
-  document.getElementById("helper").style.display="block";
-  document.getElementById("helper").textContent=text;
-  speak(text,"teacher");
+  const msg=
+  `خذ نفسًا عميقًا يا ${student}.<br>
+   عدّ القلوب واحدة واحدة، ولا تتعجل.`;
+  helper.style.display="block";
+  helper.innerHTML=msg;
+  speak(helper.innerText);
 }
 
-/* ===============================
-   الحكيم إبراهيم
-=============================== */
-function askHakim(){
-  document.getElementById("avatar").textContent="🧔🏻‍♂️";
-  document.getElementById("name").textContent="الحكيم إبراهيم";
-  const text="يا بني، الصبر مفتاح الفهم. نحن نجمع الأشياء عندما نضمها معًا.";
-  document.getElementById("helper").style.display="block";
-  document.getElementById("helper").textContent=text;
-  speak(text,"hakim");
+function startNextTimer(){
+  nextArea.style.display="block";
+  time=10;
+  nextBtn.disabled=true;
+  nextBtn.innerText=`التالي (${eastern(time)})`;
+
+  timer=setInterval(()=>{
+    time--;
+    nextBtn.innerText=`التالي (${eastern(time)})`;
+    if(time<=0){
+      clearInterval(timer);
+      nextBtn.disabled=false;
+      nextBtn.innerText="التالي";
+    }
+  },1000);
 }
 
-/* بداية */
-newQuestion();
+function nextStep(){
+  stepClicks++;
+  if(stepClicks===1){
+    nextArea.style.display="none";
+    newQuestion();
+  }else if(stepClicks===2){
+    teacherText.innerText=
+      "تذكير: الجمع يعني أن نضع العددين معًا.";
+    speak(teacherText.innerText);
+  }else if(stepClicks===3){
+    teacherText.innerText=
+      "نشاط: اكتب في دفترك ٣ + ٤ = ؟";
+    speak(teacherText.innerText);
+  }else{
+    teacherText.innerText=
+      "أنت تقوم بعمل رائع، والله معك دائمًا.";
+    speak(teacherText.innerText);
+  }
+}
 </script>
 
 </body>
