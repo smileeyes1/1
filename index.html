@@ -3,405 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة التعلم الذكية – الحكيم إبراهيم والمعلم محمد</title>
+<title>المعلم محمد الذكي – بصوت بشري</title>
 
-<!-- ================== CSS ================== -->
 <style>
-/* ===== الإعدادات العامة ===== */
-* { box-sizing: border-box; }
-
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  font-family: "Tajawal", Arial, sans-serif;
+*{box-sizing:border-box}
+html,body{
+  width:100%;height:100%;margin:0;overflow:hidden;
+  font-family:"Tajawal",Arial;
+}
+body{
+  background:linear-gradient(#fde4ec,#ffffff);
+  display:flex;justify-content:center;align-items:center;
+  color:#880e4f;
 }
 
-body {
-  background: linear-gradient(#fde4ec, #ffffff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #880e4f;
+.container{width:100vw;height:100vh;padding:3vh 3vw}
+.card{
+  width:100%;height:100%;
+  background:white;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
-/* ===== زر ملء الشاشة ===== */
-.fullscreen-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 9999;
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: #d81b60;
-  color: #fff;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
+.character{display:flex;align-items:center;gap:12px}
+.avatar{font-size:48px}
+.name{font-size:22px;font-weight:bold}
+
+.speech{
+  background:#fce4ec;
+  border-radius:16px;
+  padding:16px 20px;
+  margin:12px;
+  max-width:900px;
+  text-align:center;
+  font-size:18px;
 }
 
-/* ===== الحاوية الرئيسية ===== */
-.container {
-  width: 100vw;
-  height: 100vh;
-  padding: 3vh 3vw;
+input{
+  font-size:22px;
+  padding:8px;
+  border-radius:12px;
+  border:3px solid #f48fb1;
+  width:260px;
+  text-align:center;
 }
 
-/* ===== البطاقة ===== */
-.card {
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  border-radius: 0;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+button{
+  margin:8px;
+  padding:12px 24px;
+  font-size:18px;
+  border:none;
+  border-radius:14px;
+  background:#d81b60;
+  color:white;
+  cursor:pointer;
 }
 
-/* ===== الشخصيات ===== */
-.character {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.avatar {
-  font-size: 48px;
-}
-
-.name {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* ===== فقاعة الكلام ===== */
-.speech {
-  background: #fce4ec;
-  border-radius: 16px;
-  padding: 16px 20px;
-  margin: 12px;
-  max-width: 900px;
-  text-align: center;
-  font-size: 18px;
-  line-height: 1.7;
-}
-
-/* ===== السؤال ===== */
-.question {
-  font-size: 36px;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-/* ===== القلوب ===== */
-.hearts {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 6px 0;
-}
-
-.heart {
-  font-size: 36px;
-  color: #e53935;
-  animation: heartGlow 1.5s infinite alternate;
-}
-
-@keyframes heartGlow {
-  from {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  to {
-    transform: scale(1.25);
-    opacity: 1;
-  }
-}
-
-/* ===== النجوم ===== */
-.stars {
-  font-size: 32px;
-  color: #fbc02d;
-  margin-top: 12px;
-  animation: starGlow 1.2s infinite alternate;
-}
-
-@keyframes starGlow {
-  from { opacity: 0.6; }
-  to { opacity: 1; }
-}
-
-/* ===== الإدخال والأزرار ===== */
-input {
-  font-size: 26px;
-  width: 120px;
-  text-align: center;
-  padding: 8px;
-  border-radius: 12px;
-  border: 3px solid #f48fb1;
-}
-
-button {
-  margin: 8px;
-  padding: 12px 24px;
-  font-size: 18px;
-  border: none;
-  border-radius: 14px;
-  background: #d81b60;
-  color: white;
-  cursor: pointer;
-}
-
-/* ===== صندوق المساعدة ===== */
-.helper {
-  background: #fff3cd;
-  color: #795548;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 16px;
-  margin-top: 10px;
-  max-width: 900px;
-  text-align: center;
-}
-
-/* ===== تكيّف الهاتف ===== */
-@media (max-width: 600px) {
-  .question { font-size: 28px; }
-  .heart { font-size: 28px; }
-  .name { font-size: 18px; }
-}
+audio{display:none}
 </style>
 </head>
 
 <body>
 
-<!-- زر ملء الشاشة -->
-<button class="fullscreen-btn" onclick="toggleFullScreen()">⛶ تكبير / تصغير</button>
-
 <div class="container">
+<div class="card">
 
-<!-- ================== المقدمة ================== -->
-<div id="intro" class="card">
-  <div class="character">
-    <div class="avatar">🧔🏻‍♂️</div>
-    <div class="name">الحكيم إبراهيم</div>
-  </div>
-
-  <div class="speech">
-    مرحبًا بك يا بطل 🌟  
-    هنا نتعلم بهدوء ورحمة.  
-    لا يوجد عقاب، ولا مقارنة،  
-    **كل محاولة تقوم بها عبادة جميلة**.  
-    والله مع الصابرين.
-  </div>
-
-  <p>اسم الطالب:</p>
-  <input id="studentName" placeholder="اكتب اسمك">
-
-  <button onclick="startGame()">ابدأ الرحلة</button>
+<div class="character">
+  <div class="avatar">👨‍🏫</div>
+  <div class="name">المعلم محمد</div>
 </div>
 
-<!-- ================== اللعب ================== -->
-<div id="lesson" class="card" style="display:none">
+<div class="speech" id="teacherText">
+  مرحبًا يا بطل، يمكنك أن تسألني أي سؤال في الدرس 🌟
+</div>
 
-  <!-- المعلم محمد -->
-  <div class="character">
-    <div class="avatar">👨‍🏫</div>
-    <div class="name">المعلم محمد</div>
-  </div>
+<input id="childQuestion" placeholder="اكتب سؤالك هنا">
 
-  <div class="speech" id="teacherSpeech"></div>
+<div>
+  <button onclick="askTeacher()">👨‍🏫 اسأل المعلم محمد</button>
+  <button onclick="askHakim()">🧔🏻‍♂️ اسأل الحكيم إبراهيم</button>
+</div>
 
-  <div class="question" id="questionText"></div>
-
-  <div id="heartsA" class="hearts"></div>
-  <div style="font-size:28px;font-weight:bold">+</div>
-  <div id="heartsB" class="hearts"></div>
-  <div id="heartsResult" class="hearts"></div>
-
-  <input id="answerInput" type="number" placeholder="الناتج">
-
-  <div>
-    <button onclick="checkAnswer()">تحقق</button>
-    <button onclick="needHelp()">🤍 أنا محتار</button>
-    <button onclick="askHakim()">🧔🏻‍♂️ اسأل الحكيم</button>
-  </div>
-
-  <div id="helperBox" class="helper" style="display:none"></div>
-  <div id="stars" class="stars" style="display:none">🌟 🌟 🌟</div>
+<audio id="voicePlayer"></audio>
 
 </div>
 </div>
 
-<!-- ================== JavaScript ================== -->
 <script>
-/* =================================================
-   المتغيرات العامة
-================================================= */
-let student = "بطلنا";
-let a = 2;
-let b = 3;
+async function speakHuman(text, role){
+  const res = await fetch("http://localhost:3000/api/speak", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      text: text,
+      role: role
+    })
+  });
 
-/* ===== حالة الطفل (الذكاء السلوكي) ===== */
-const childState = {
-  success: 0,
-  wrong: 0,
-  help: 0
-};
+  const data = await res.json();
 
-/* ===== عبارات المعلم محمد (ذكاء لغوي) ===== */
-const teacherLanguage = {
-  normal: [
-    "فكر بهدوء يا بطل، وخذ وقتك.",
-    "دعنا نعد القلوب معًا خطوة خطوة.",
-    "أنا واثق أنك تستطيع إن شاء الله."
-  ],
-  support: [
-    "لا تقلق، سنفهم الفكرة معًا.",
-    "الهدوء يجعل التفكير أسهل.",
-    "انظر إلى القلوب ولا تتعجل."
-  ],
-  challenge: [
-    "أراك مستعدًا لتحدٍّ جميل.",
-    "تفكيرك رائع، لنجرب خطوة أقوى."
-  ]
-};
+  document.getElementById("teacherText").innerText = data.text;
 
-/* ===== أدوات مساعدة ===== */
-function speak(text) {
-  if (!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ar-SA";
-  u.rate = 0.9;
-  u.pitch = 1.1;
-  speechSynthesis.speak(u);
+  const audio = document.getElementById("voicePlayer");
+  audio.src = data.audioUrl;
+  audio.play();
 }
 
-function randomFrom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+async function askTeacher(){
+  const q = document.getElementById("childQuestion").value.trim();
+  if(!q) return;
+
+  speakHuman(q,"teacher");
 }
 
-function showHearts(id, count) {
-  const el = document.getElementById(id);
-  el.innerHTML = "";
-  for (let i = 0; i < count; i++) {
-    const span = document.createElement("span");
-    span.className = "heart";
-    span.textContent = "❤";
-    el.appendChild(span);
-  }
-}
+async function askHakim(){
+  const q = document.getElementById("childQuestion").value.trim();
+  if(!q) return;
 
-function toggleFullScreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
-}
-
-/* =================================================
-   بدء اللعبة
-================================================= */
-function startGame() {
-  student = document.getElementById("studentName").value || student;
-  document.getElementById("intro").style.display = "none";
-  document.getElementById("lesson").style.display = "flex";
-  document.documentElement.requestFullscreen?.();
-  nextQuestion();
-}
-
-/* =================================================
-   توليد سؤال جديد
-================================================= */
-function nextQuestion() {
-  showHearts("heartsA", a);
-  showHearts("heartsB", b);
-  showHearts("heartsResult", 0);
-  document.getElementById("stars").style.display = "none";
-  document.getElementById("helperBox").style.display = "none";
-
-  let msg;
-  if (childState.wrong >= 2 || childState.help >= 2) {
-    msg = randomFrom(teacherLanguage.support);
-  } else if (childState.success >= 3) {
-    msg = randomFrom(teacherLanguage.challenge);
-  } else {
-    msg = randomFrom(teacherLanguage.normal);
-  }
-
-  document.getElementById("teacherSpeech").textContent = msg;
-  speak(msg);
-
-  document.getElementById("questionText").textContent =
-    `${a} + ${b} = ؟`;
-
-  document.getElementById("answerInput").value = "";
-}
-
-/* =================================================
-   التحقق من الإجابة
-================================================= */
-function checkAnswer() {
-  const userAnswer = Number(document.getElementById("answerInput").value);
-
-  if (userAnswer === a + b) {
-    childState.success++;
-    childState.wrong = 0;
-
-    showHearts("heartsResult", a + b);
-    document.getElementById("stars").style.display = "block";
-
-    speak("أحسنت يا بطل، هذا إنجاز جميل.");
-
-    setTimeout(nextQuestion, 2000);
-  } else {
-    childState.wrong++;
-    speak("لا بأس، حاول مرة أخرى بهدوء.");
-  }
-}
-
-/* =================================================
-   زر: أنا محتار
-================================================= */
-function needHelp() {
-  childState.help++;
-  const box = document.getElementById("helperBox");
-  box.style.display = "block";
-  box.textContent =
-    "خذ نفسًا عميقًا، وعد القلوب واحدة واحدة. لا تعجل.";
-  speak(box.textContent);
-}
-
-/* =================================================
-   الحكيم إبراهيم – ذكاء اصطناعي مقيّد وآمن
-================================================= */
-function askHakim() {
-  let reply = "";
-
-  if (childState.help >= 2) {
-    reply =
-      "يا بني، التوقف أحيانًا عبادة. عدّ القلوب بهدوء وستفهم.";
-  } else if (childState.wrong >= 2) {
-    reply =
-      "الجمع يعني أن نضم الأشياء معًا. هل ترى القلوب أصبحت أكثر؟";
-  } else if (childState.success >= 1) {
-    reply =
-      "أراك تفهم الفكرة، فقط لا تستعجل.";
-  } else {
-    reply =
-      "لا تقلق، التفكير الهادئ هو طريق الفهم.";
-  }
-
-  const box = document.getElementById("helperBox");
-  box.style.display = "block";
-  box.textContent = reply;
-  speak(reply);
+  speakHuman(q,"hakim");
 }
 </script>
 
