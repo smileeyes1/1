@@ -3,203 +3,428 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المعلم الذكي – الجمع الآمن</title>
+<title>المنهج التفاعلي الذكي – مغامرة الجمع</title>
 
 <style>
+/* ===== الأساس ===== */
 *{box-sizing:border-box}
 html,body{
-  width:100%;height:100%;margin:0;overflow:hidden;
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
   font-family:"Tajawal",Arial;
 }
 body{
-  background:linear-gradient(#e8f7f5,#ffffff);
-  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(#e0f7fa,#ffffff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
   color:#00695c;
 }
-.fullbtn{
-  position:fixed;top:10px;right:10px;z-index:999;
-  padding:8px 14px;border-radius:10px;
-  background:#26a69a;color:white;border:none;
+
+/* ===== زر ملء الشاشة ===== */
+.full-btn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  z-index:1000;
+  padding:8px 14px;
+  border-radius:10px;
+  background:#26a69a;
+  color:white;
+  border:none;
+  font-size:14px;
 }
-.container{width:100vw;height:100vh;padding:3vh 3vw}
+
+/* ===== الحاوية ===== */
+.container{
+  width:100vw;
+  height:100vh;
+  padding:3vh 3vw;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ===== البطاقة ===== */
 .card{
-  width:100%;height:100%;background:white;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
+  width:100%;
+  height:100%;
+  background:white;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
-.character{display:flex;align-items:center;gap:10px}
+
+/* ===== الشخصيات ===== */
+.character{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 .avatar{font-size:46px}
 .name{font-size:22px;font-weight:bold}
 
+/* ===== فقاعة الكلام ===== */
 .speech{
-  background:#e0f2f1;border-radius:16px;
-  padding:14px 18px 14px 46px;
-  margin:12px 0;max-width:760px;text-align:center;
-  position:relative;font-size:18px;
+  background:#e0f2f1;
+  border-radius:16px;
+  padding:14px 18px 14px 48px;
+  margin:12px 0;
+  position:relative;
+  max-width:780px;
+  text-align:center;
+  font-size:18px;
 }
-.voice{position:absolute;left:10px;top:10px;
-  width:30px;height:30px;border-radius:50%;
-  border:none;background:#26a69a;color:white
+.voice{
+  position:absolute;
+  left:10px;
+  top:10px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:none;
+  background:#26a69a;
+  color:white;
 }
 
+/* ===== السؤال ===== */
 .question{font-size:36px;font-weight:bold;margin:10px 0}
 
-.hearts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
-.heart{font-size:34px;animation:glow 1.4s infinite alternate}
-@keyframes glow{from{transform:scale(1);opacity:.7}to{transform:scale(1.25);opacity:1}}
+/* ===== القلوب ===== */
+.hearts{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:6px 0;
+}
+.heart{
+  font-size:34px;
+  animation:glow 1.5s infinite alternate;
+}
+@keyframes glow{
+  from{transform:scale(1);opacity:.7}
+  to{transform:scale(1.25);opacity:1}
+}
 
+/* ===== إدخال وأزرار ===== */
 input{
-  font-size:26px;width:100px;text-align:center;
-  border-radius:12px;border:3px solid #80cbc4;padding:8px
+  font-size:26px;
+  width:100px;
+  text-align:center;
+  border-radius:12px;
+  border:3px solid #80cbc4;
+  padding:8px;
 }
 button{
-  margin:8px;padding:10px 22px;font-size:18px;
-  border:none;border-radius:14px;background:#26a69a;color:white
+  margin:8px;
+  padding:10px 22px;
+  font-size:18px;
+  border:none;
+  border-radius:14px;
+  background:#26a69a;
+  color:white;
 }
 .helper{
-  background:#fff3cd;color:#795548;
-  border-radius:12px;padding:10px;font-size:16px;margin-top:8px
+  background:#fff3cd;
+  color:#795548;
+  border-radius:12px;
+  padding:10px;
+  font-size:16px;
+  margin-top:8px;
 }
+
 @media(max-width:600px){
-  .question{font-size:28px}.heart{font-size:28px}.name{font-size:18px}
+  .question{font-size:28px}
+  .heart{font-size:28px}
+  .name{font-size:18px}
 }
 </style>
 </head>
 
 <body>
 
-<button class="fullbtn" onclick="toggleFull()">⛶ تصغير / تكبير</button>
+<button class="full-btn" onclick="toggleFull()">⛶ تصغير / تكبير</button>
 
 <div class="container">
 
-<!-- المقدمة -->
+<!-- ===== المقدمة ===== -->
 <div id="intro" class="card">
-  <div class="character"><div class="avatar">🧔🏻‍♂️</div><div class="name">الحكيم إبراهيم</div></div>
+  <div class="character">
+    <div class="avatar">🧔🏻‍♂️</div>
+    <div class="name">الحكيم إبراهيم</div>
+  </div>
   <div class="speech" id="introText">
-    مرحبًا يا بطل. هنا نتعلّم بهدوء.
-    لا يوجد توبيخ، فكل محاولة عبادة، والله مع الصابرين.
+    مرحبًا بك يا بطل 🌟  
+    هنا نتعلّم بهدوء ومحبة، لا توبيخ ولا مقارنة.  
+    كل محاولة عبادة، والله مع الصابرين.
   </div>
   <button class="voice" onclick="speak(introText.innerText)">🔊</button>
 
-  <p>اسم الطالب:</p><input id="student">
-  <p>اسم ولي الأمر:</p><input id="parent">
-  <button onclick="start()">ابدأ</button>
+  <p>اسم الطالب:</p>
+  <input id="studentName">
+
+  <p>اسم ولي الأمر:</p>
+  <input id="parentName">
+
+  <button onclick="startGame()">ابدأ المغامرة</button>
 </div>
 
-<!-- الدرس -->
+<!-- ===== الدرس ===== -->
 <div id="lesson" class="card" style="display:none">
-  <div class="character"><div class="avatar">👨‍🏫</div><div class="name">المعلّم محمد</div></div>
 
-  <div class="speech" id="teacher"></div>
-  <button class="voice" onclick="speak(teacher.innerText)">🔊</button>
+  <div class="character">
+    <div class="avatar">👨‍🏫</div>
+    <div class="name">المعلم محمد</div>
+  </div>
+
+  <div class="speech" id="teacherText"></div>
+  <button class="voice" onclick="speak(teacherText.innerText)">🔊</button>
 
   <div class="question" id="question"></div>
-  <div id="hA" class="hearts"></div>
-  <div style="font-size:26px;font-weight:bold">+</div>
-  <div id="hB" class="hearts"></div>
-  <div id="hR" class="hearts"></div>
 
-  <input id="answer" type="number" placeholder="الناتج">
+  <div id="heartsA" class="hearts"></div>
+  <div style="font-size:26px;font-weight:bold">+</div>
+  <div id="heartsB" class="hearts"></div>
+  <div id="heartsResult" class="hearts"></div>
+
+  <input type="number" id="answer" placeholder="الناتج">
 
   <div>
-    <button onclick="check()">تحقق</button>
-    <button onclick="help()">🤍 أنا محتار</button>
+    <button onclick="checkAnswer()">تحقق</button>
+    <button onclick="needHelp()">🤍 أنا محتار</button>
   </div>
 
   <div id="helper" class="helper" style="display:none"></div>
+
   <div id="nextBox" style="display:none">
-    <button id="nextBtn" disabled onclick="nextQ()">التالي (١٠)</button>
+    <button id="nextBtn" disabled onclick="nextQuestion()">التالي (١٠)</button>
   </div>
 </div>
+
 </div>
 
 <script>
-/* ===== حالة الطفل (الذكاء الحقيقي) ===== */
-const state={
-  wrong:0, hesitation:0, help:0, success:0, lastTime:0
+/* =====================================================================
+   1) المنهج (Curriculum)
+===================================================================== */
+const curriculum = {
+  addition: {
+    units: [
+      {
+        name: "مفهوم الجمع",
+        lessons: [
+          {
+            intro: "الجمع يعني أن نضم الأشياء معًا.",
+            questions: [
+              {a:2, b:3},
+              {a:1, b:4}
+            ]
+          },
+          {
+            intro: "عندما نجمع، يصبح العدد أكبر.",
+            questions: [
+              {a:3, b:2},
+              {a:4, b:1}
+            ]
+          }
+        ]
+      }
+    ]
+  }
 };
 
-/* ===== أدوات ===== */
+/* =====================================================================
+   2) حالة المتعلم (الذكاء)
+===================================================================== */
+const learnerState = {
+  unit: 0,
+  lesson: 0,
+  question: 0,
+  successStreak: 0,
+  wrongAttempts: 0,
+  helpUsed: 0,
+  startTime: 0
+};
+
+/* =====================================================================
+   3) متغيرات عامة
+===================================================================== */
+let student = "بطلنا";
+let parent = "ولي أمره الكريم";
+let a = 0, b = 0;
+let timer = null, seconds = 10;
+
+/* =====================================================================
+   أدوات
+===================================================================== */
 function speak(text){
   speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  const v=speechSynthesis.getVoices().find(x=>x.lang.startsWith("ar"));
-  if(v)u.voice=v;u.lang="ar-SA";u.rate=0.88;u.pitch=1.1;
+  const u = new SpeechSynthesisUtterance(text);
+  const v = speechSynthesis.getVoices().find(x=>x.lang.startsWith("ar"));
+  if(v) u.voice = v;
+  u.lang="ar-SA";
+  u.rate=0.9;
+  u.pitch=1.1;
   speechSynthesis.speak(u);
 }
-function eastern(n){return n.toString().replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);}
-function hearts(id,n){
-  const e=document.getElementById(id);e.innerHTML="";
-  for(let i=0;i<n;i++){const h=document.createElement("span");h.className="heart";h.innerText="❤";e.appendChild(h)}
-}
-function toggleFull(){
-  if(!document.fullscreenElement){document.documentElement.requestFullscreen()}
-  else{document.exitFullscreen()}
+
+function eastern(n){
+  return n.toString().replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
 }
 
-/* ===== منطق الذكاء ===== */
-function decideMode(){
-  if(state.help>=2) return "support";
-  if(state.wrong>=2) return "simplify";
-  if(state.success>=3) return "challenge";
-  return "normal";
-}
-
-/* ===== الدرس ===== */
-let a=0,b=0,timer=null,sec=10,startTime=0,name="";
-function start(){
-  name=student.value||"بطلنا";
-  intro.style.display="none";lesson.style.display="flex";
-  newQ();
-}
-function newQ(){
-  const mode=decideMode();
-  state.lastTime=Date.now();
-
-  if(mode==="simplify"){a=1;b=1}
-  else if(mode==="challenge"){a=5+Math.floor(Math.random()*3);b=3}
-  else{a=1+Math.floor(Math.random()*4);b=1+Math.floor(Math.random()*3)}
-
-  teacher.innerText=`يا ${name}، سنعدّ القلوب معًا بهدوء. لا تعجل.`;
-  speak(teacher.innerText);
-
-  question.innerText=`${eastern(a)} + ${eastern(b)}`;
-  hearts("hA",a);hearts("hB",b);hearts("hR",0);
-  answer.value="";helper.style.display="none";nextBox.style.display="none";
-  startTime=Date.now();
-}
-
-function check(){
-  const t=(Date.now()-startTime)/1000;
-  if(t>6) state.hesitation++;
-
-  if(Number(answer.value)==a+b){
-    state.success++;state.wrong=0;
-    hearts("hR",a+b);
-    teacher.innerText=`أحسنت يا ${name}. تفكيرك جميل، والنبي ﷺ يحب القوي الأمين.`;
-    speak(teacher.innerText);startTimer();
-  }else{
-    state.wrong++;state.success=0;
-    speak(`لا بأس يا ${name}. الخطأ طريق للتعلم، والله معك.`);
+function showHearts(id,count){
+  const el = document.getElementById(id);
+  el.innerHTML="";
+  for(let i=0;i<count;i++){
+    const h=document.createElement("span");
+    h.className="heart";
+    h.innerText="❤";
+    el.appendChild(h);
   }
 }
 
-function help(){
-  state.help++;
+function toggleFull(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+/* =====================================================================
+   4) المنطق الذكي
+===================================================================== */
+function decideMode(){
+  if(learnerState.helpUsed >= 2) return "support";
+  if(learnerState.wrongAttempts >= 2) return "simplify";
+  if(learnerState.successStreak >= 3) return "challenge";
+  return "normal";
+}
+
+/* =====================================================================
+   5) تشغيل اللعبة
+===================================================================== */
+function startGame(){
+  student = studentName.value || student;
+  parent = parentName.value || parent;
+  intro.style.display="none";
+  lesson.style.display="flex";
+  newQuestion();
+  document.documentElement.requestFullscreen?.();
+}
+
+function newQuestion(){
+  const unit = curriculum.addition.units[learnerState.unit];
+  const lessonObj = unit.lessons[learnerState.lesson];
+  const q = lessonObj.questions[learnerState.question];
+
+  const mode = decideMode();
+
+  if(mode==="simplify"){
+    a=1; b=1;
+    teacherText.innerText =
+      `يا ${student}، سنبسّط قليلًا. عُدّ بهدوء، والله مع الصابرين.`;
+  }
+  else if(mode==="challenge"){
+    a=q.a+1; b=q.b+1;
+    teacherText.innerText =
+      `أحسنت يا ${student}! أراك جاهزًا لخطوة أقوى، وأنا واثق بك.`;
+  }
+  else{
+    a=q.a; b=q.b;
+    teacherText.innerText = `${student}، ${lessonObj.intro}`;
+  }
+
+  speak(teacherText.innerText);
+
+  question.innerText =
+    `وجدنا ${eastern(a)} + ${eastern(b)} قلوبًا. كم أصبح العدد؟`;
+
+  showHearts("heartsA",a);
+  showHearts("heartsB",b);
+  showHearts("heartsResult",0);
+
+  answer.value="";
+  helper.style.display="none";
+  nextBox.style.display="none";
+  learnerState.startTime = Date.now();
+}
+
+function checkAnswer(){
+  const user = Number(answer.value);
+  const timeTaken = (Date.now() - learnerState.startTime)/1000;
+
+  if(user === a + b){
+    learnerState.successStreak++;
+    learnerState.wrongAttempts = 0;
+
+    showHearts("heartsResult",a+b);
+    teacherText.innerText =
+      `أحسنت يا ${student}. محاولتك عبادة جميلة، والله يبارك فيك.`;
+    speak(teacherText.innerText);
+
+    learnerState.question++;
+    const lessonObj =
+      curriculum.addition.units[learnerState.unit]
+        .lessons[learnerState.lesson];
+
+    if(learnerState.question >= lessonObj.questions.length){
+      learnerState.lesson++;
+      learnerState.question = 0;
+    }
+
+    startTimer();
+  } else {
+    learnerState.successStreak = 0;
+    learnerState.wrongAttempts++;
+    speak(`لا بأس يا ${student}. الخطأ خطوة للتعلم.`);
+  }
+}
+
+function needHelp(){
+  learnerState.helpUsed++;
   helper.style.display="block";
-  helper.innerText="خذ نفسًا عميقًا، وعدّ القلوب واحدة واحدة.";
+  helper.innerText =
+    "خذ نفسًا عميقًا، وعدّ القلوب واحدة واحدة بهدوء.";
   speak(helper.innerText);
 }
 
 function startTimer(){
-  sec=10;nextBox.style.display="block";nextBtn.disabled=true;
-  nextBtn.innerText=`التالي (${sec})`;
+  seconds = 10;
+  nextBox.style.display="block";
+  nextBtn.disabled=true;
+  nextBtn.innerText=`التالي (${seconds})`;
+
   timer=setInterval(()=>{
-    sec--;nextBtn.innerText=`التالي (${sec})`;
-    if(sec<=0){clearInterval(timer);nextBtn.disabled=false;nextBtn.innerText="التالي"}
+    seconds--;
+    nextBtn.innerText=`التالي (${seconds})`;
+    if(seconds<=0){
+      clearInterval(timer);
+      nextBtn.disabled=false;
+      nextBtn.innerText="التالي";
+    }
   },1000);
 }
-function nextQ(){newQ()}
+
+function nextQuestion(){
+  const unit =
+    curriculum.addition.units[learnerState.unit];
+
+  if(learnerState.lesson >= unit.lessons.length){
+    teacherText.innerText =
+      `مبارك يا ${student}! أكملت هذه الوحدة بنجاح.  
+       سيَفخَر ${parent} بك كثيرًا، والله معك دائمًا.`;
+    speak(teacherText.innerText);
+    return;
+  }
+  newQuestion();
+}
 </script>
+
 </body>
 </html>
